@@ -47,7 +47,7 @@ geany_font='JetBrainsMono Nerd Font 10'
 # Appearance
 gtk_font='JetBrainsMono Nerd Font 10'
 gtk_theme='Dracula'
-icon_theme='Luv-Folders'
+icon_theme='Zafiro'
 cursor_theme='Vimix'
 
 # Openbox
