@@ -5,9 +5,8 @@
 # Colors
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 CDIR=`cd "$DIR" && cd .. && pwd`
-BACKGROUND=`cat $CDIR/colors.ini | grep 'ALTBACKGROUND' | head -n1 | cut -d '=' -f2 | tr -d ' '`
 POWER_ON=`cat $CDIR/colors.ini | grep 'GREEN' | head -n1 | cut -d '=' -f2 | tr -d ' '`
-POWER_OFF=`cat $CDIR/colors.ini | grep 'ALTFOREGROUND' | head -n1 | cut -d '=' -f2 | tr -d ' '`
+POWER_OFF=`cat $CDIR/colors.ini | grep 'FOREGROUND' | head -n1 | cut -d '=' -f2 | tr -d ' '`
 
 # Checks if bluetooth controller is powered on
 power_on() {
@@ -33,7 +32,7 @@ device_connected() {
 print_status() {
     if power_on; then
 		if [[ -z `bluetoothctl info "$device" | grep "Alias" | cut -d ' ' -f 2-` ]]; then
-			echo "%{B$BACKGROUND}%{F$POWER_ON}󰂯 %{F-}Power: on%{B-}"
+			echo "%{F$POWER_ON}%{T2}%{T-} %{F-}On"
 		fi
 		
         paired_devices_cmd="devices Paired"
@@ -50,16 +49,16 @@ print_status() {
                 device_alias=$(bluetoothctl info "$device" | grep "Alias" | cut -d ' ' -f 2-)
 
                 if [ $counter -gt 0 ]; then
-                    echo "%{B$BACKGROUND}%{F$POWER_ON}󰂱 %{F-}$device_alias%{B-}"
+                    echo "%{F$POWER_ON}%{T2}%{T-} %{F-}$device_alias"
                 else
-                    echo "%{B$BACKGROUND}%{F$POWER_ON}󰂱 %{F-}$device_alias%{B-}"
+                    echo "%{F$POWER_ON}%{T2}%{T-} %{F-}$device_alias"
                 fi
 
                 ((counter++))
             fi
         done
     else
-        echo "%{B$BACKGROUND}%{F$POWER_OFF}󰂲 Power: off%{F-}%{B-}"
+        echo "%{F$POWER_OFF}%{T2}%{T-} Off%{F-}"
     fi
 }
 

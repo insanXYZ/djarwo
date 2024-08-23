@@ -9,8 +9,8 @@ TDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 THEME="${TDIR##*/}"
 
 source "$HOME"/.config/openbox/themes/"$THEME"/theme.bash
-altbackground="`pastel color $background | pastel lighten $light_value | pastel format hex`"
-altforeground="`pastel color $foreground | pastel darken $dark_value | pastel format hex`"
+altbackground="`pastel color $element_bg | pastel darken $dark_value | pastel format hex`"
+altforeground="`pastel color $element_fg | pastel lighten $light_value | pastel format hex`"
 
 ## Directories ------------------------------
 PATH_CONF="$HOME/.config"
@@ -38,7 +38,7 @@ apply_polybar() {
 
 	# rewrite colors file
 	cat > ${PATH_PBAR}/colors.ini <<- EOF
-		[color]
+	[color]
 		
 		BACKGROUND = ${background}
 		FOREGROUND = ${foreground}
@@ -116,6 +116,49 @@ apply_netmenu() {
 	if [[ -f "$PATH_CONF"/networkmanager-dmenu/config.ini ]]; then
 		sed -i -e "s#dmenu_command = .*#dmenu_command = rofi -dmenu -theme $PATH_ROFI/networkmenu.rasi#g" ${PATH_CONF}/networkmanager-dmenu/config.ini
 	fi
+}
+
+# Terminal ----------------------------------
+apply_terminal() {
+	# alacritty : fonts
+	sed -i ${PATH_TERM}/fonts.toml \
+		-e "s/family = .*/family = \"$terminal_font_name\"/g" \
+		-e "s/size = .*/size = $terminal_font_size/g"
+
+	# alacritty : colors
+	cat > ${PATH_TERM}/colors.toml <<- _EOF_
+		## Colors configuration
+		[colors.primary]
+		background = "${background}"
+		foreground = "${foreground}"
+		
+		[colors.normal]
+		black   = "${color0}"
+		red     = "${color1}"
+		green   = "${color2}"
+		yellow  = "${color3}"
+		blue    = "${color4}"
+		magenta = "${color5}"
+		cyan    = "${color6}"
+		white   = "${color7}"
+		
+		[colors.bright]
+		black   = "${color8}"
+		red     = "${color9}"
+		green   = "${color10}"
+		yellow  = "${color11}"
+		blue    = "${color12}"
+		magenta = "${color13}"
+		cyan    = "${color14}"
+		white   = "${color15}"
+	_EOF_
+
+	# xfce terminal : fonts & colors
+	xfconf-query -c xfce4-terminal -p /font-name -s "$terminal_font_name $terminal_font_size"
+	xfconf-query -c xfce4-terminal -p /color-background -s "$background"
+	xfconf-query -c xfce4-terminal -p /color-foreground -s "$foreground"
+	xfconf-query -c xfce4-terminal -p /color-cursor -s "$foreground"
+	xfconf-query -c xfce4-terminal -p /color-palette -s "${color0};${color1};${color2};${color3};${color4};${color5};${color6};${color7};${color8};${color9};${color10};${color11};${color12};${color13};${color14};${color15}"
 }
 
 # Geany -------------------------------------
@@ -271,6 +314,7 @@ apply_polybar
 apply_tint2
 apply_rofi
 apply_netmenu
+apply_terminal
 apply_geany
 apply_appearance
 apply_obconfig

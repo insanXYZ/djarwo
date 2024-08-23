@@ -1,9 +1,3 @@
-# ------------------------------------------------------------------------------
-# Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
-#
-# Default Theme
-# ------------------------------------------------------------------------------
-
 # Colors
 background='#1E2128'
 foreground='#ABB2BF'
@@ -27,6 +21,9 @@ color15='#B5BCC9'
 accent='#5294E2'
 light_value='0.05'
 dark_value='0.30'
+
+element_bg='#1E2128'
+element_fg='#303030'
 
 # Wallpaper
 wdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -55,7 +52,7 @@ cursor_theme='Vimix'
 
 # Openbox
 ob_theme='Dracula'
-ob_layout='DLIMC'
+ob_layout='LIMC'
 ob_font='JetBrainsMono Nerd Font'
 ob_font_size='9'
 ob_menu='menu-icons.xml'
@@ -67,9 +64,9 @@ ob_margin_r='8'
 # Dunst
 dunst_width='300'
 dunst_height='80'
-dunst_offset='10x10'
+dunst_offset='20x20'
 dunst_origin='top-right'
-dunst_font='JetBrainsMono Nerd Font 10'
+dunst_font='JetBrainsMono Nerd Font 9'
 dunst_border='0'
 dunst_separator='2'
 
